@@ -31,6 +31,7 @@
 }
 
 - (UIViewController *)MKViewController:(MKViewController *)viewController ViewControllerAtIndex:(NSInteger)index {    CustomViewController *vc = [[CustomViewController alloc] init];
+    vc.view.backgroundColor = [UIColor yellowColor];
     return vc;
 }
 - (void)didReceiveMemoryWarning {

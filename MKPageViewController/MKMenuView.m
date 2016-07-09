@@ -49,7 +49,7 @@ static NSInteger buttonTagOffset = 1000;
             NSString *string = [self.dataSource menuView:self titleAtIndex:i];
              [button setTitle:string forState:UIControlStateNormal];
         }
-        [button setTitleColor:[UIColor yellowColor] forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [button setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
         button.titleLabel.textAlignment = NSTextAlignmentCenter;
         button.tag = i + buttonTagOffset;
@@ -74,5 +74,15 @@ static NSInteger buttonTagOffset = 1000;
         [self.delegate menuView:self didClickTitlesAtIndex:button.tag - buttonTagOffset];
         self.selButton = button;
     }
+    CGFloat offsetX = button.center.x - self.bounds.size.width / 2;
+    if (offsetX < 0) {
+        offsetX = 0;
+    }
+    CGFloat maxOffset = self.titlesScrollView.contentSize.width - self.titlesScrollView.bounds.size.width;
+    if (offsetX > maxOffset) {
+        offsetX = maxOffset;
+    }
+    [self.titlesScrollView setContentOffset:CGPointMake(offsetX, 0) animated:YES];
+    
 }
 @end

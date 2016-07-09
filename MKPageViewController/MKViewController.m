@@ -9,6 +9,7 @@
 #import "MKViewController.h"
 #import "MKMenuView.h"
 @interface MKViewController () <MKMenuViewDelegate ,MKMenuViewDataSource ,UIScrollViewDelegate>
+
 @property (nonatomic ,strong)UIScrollView *contentScrollView;
 
 @property (nonatomic ,assign)NSInteger childControllerCount;
@@ -16,12 +17,15 @@
 @property (nonatomic ,assign)NSInteger selIndex;
 
 @property (nonatomic ,strong)MKMenuView *titlesView;
+
 @end
 
 @implementation MKViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"网易新闻";
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = [UIColor whiteColor];
     [self addTitlesView];
@@ -59,6 +63,7 @@
     self.contentScrollView.showsHorizontalScrollIndicator = NO;
     self.contentScrollView.pagingEnabled = YES;
     self.contentScrollView.delegate = self;
+    self.contentScrollView.bounces = NO;
     self.contentScrollView.contentSize = (CGSize){self.view.bounds.size.width * self.childControllerCount,0 };
     [self.view addSubview:self.contentScrollView];
 }
