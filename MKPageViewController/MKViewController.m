@@ -7,31 +7,76 @@
 //
 
 #import "MKViewController.h"
+#import "MKMenuView.h"
+@interface MKViewController () <MKMenuViewDelegate ,MKMenuViewDataSource ,UIScrollViewDelegate>
+@property (nonatomic ,strong)UIScrollView *contentScrollView;
 
-@interface MKViewController ()
+@property (nonatomic ,assign)NSInteger childControllerCount;
 
+@property (nonatomic ,assign)NSInteger selIndex;
+
+@property (nonatomic ,strong)MKMenuView *titlesView;
 @end
 
 @implementation MKViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.view.backgroundColor = [UIColor whiteColor];
+    [self addTitlesView];
+    [self addContentScrollView];
+    [self addChildViewControllersAtIndex:self.selIndex];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)addTitlesView {
+    self.titlesView = [[MKMenuView alloc] initWithFrame:(CGRect) {0,64, self.view.bounds.size.width, 44}];
+    self.titlesView.delegate = self;
+    self.titlesView.dataSource = self;
+    [self.view addSubview:self.titlesView];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)addChildViewControllersAtIndex:(NSInteger )index{
+    UIViewController *viewController = [self viewControllers:index];
+    [self addChildViewController:viewController];
+    viewController.view.frame = (CGRect) {self.contentScrollView.bounds.size.width * index, 0, self.contentScrollView.bounds.size.width, self.contentScrollView.bounds.size.height};
+    [self.contentScrollView addSubview:viewController.view];
+    [viewController didMoveToParentViewController:self];
 }
-*/
 
+- (UIViewController *)viewControllers:(NSInteger)index {
+    if ([self.dataSource respondsToSelector:@selector(MKViewController:ViewControllerAtIndex:)]) {
+       UIViewController *viewController = [self.dataSource MKViewController:self ViewControllerAtIndex:index];
+        return viewController;
+    }
+    return nil;
+}
+
+- (void)addContentScrollView{
+    self.contentScrollView = [[UIScrollView alloc] init];
+    self.contentScrollView.frame = (CGRect) {0, 64+44, self.view.bounds.size.width, self.view.bounds.size.height - 64 - 44};
+    self.contentScrollView.showsVerticalScrollIndicator = NO;
+    self.contentScrollView.showsHorizontalScrollIndicator = NO;
+    self.contentScrollView.pagingEnabled = YES;
+    self.contentScrollView.delegate = self;
+    self.contentScrollView.contentSize = (CGSize){self.view.bounds.size.width * self.childControllerCount,0 };
+    [self.view addSubview:self.contentScrollView];
+}
+- (void)menuView:(MKMenuView *)menuView didClickTitlesAtIndex:(NSInteger)index {
+    self.selIndex = index;
+    [self.contentScrollView setContentOffset:CGPointMake(self.view.bounds.size.width * index, 0) animated:YES];
+}
+- (NSInteger)numbersOfTitlesInMenuView:(MKMenuView *)menuView {
+    return 10;
+}
+- (NSString *)menuView:(MKMenuView *)menuView titleAtIndex:(NSInteger)index {
+    return @"新闻";
+}
+- (NSInteger)childControllerCount {
+    return [self.dataSource numbersOfChildViewControllerInMkViewController:self];
+}
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    NSInteger index = scrollView.contentOffset.x / scrollView.bounds.size.width;
+    [self.titlesView selectTitleAtIndex:index];
+}
 @end

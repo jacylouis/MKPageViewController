@@ -7,7 +7,26 @@
 //
 
 #import <UIKit/UIKit.h>
+@class MKViewController;
+
+@protocol MKViewControllerDataSource <NSObject>
+
+- (UIViewController *)MKViewController:(MKViewController *)viewController ViewControllerAtIndex:(NSInteger)index;
+
+- (NSInteger )numbersOfChildViewControllerInMkViewController:(MKViewController *)viewController;
+
+@end
+
+
+@protocol MKViewControllerDelegate <NSObject>
+
+
+
+@end
 
 @interface MKViewController : UIViewController
+@property (nonatomic ,weak) id <MKViewControllerDataSource> dataSource;
+
+@property (nonatomic ,weak) id <MKViewControllerDelegate> delegate;
 
 @end
