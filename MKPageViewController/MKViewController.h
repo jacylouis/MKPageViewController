@@ -29,4 +29,6 @@
 
 @property (nonatomic ,weak) id <MKViewControllerDelegate> delegate;
 
+@property (nonatomic ,strong)NSArray *titlesArray;
+
 @end

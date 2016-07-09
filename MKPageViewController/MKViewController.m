@@ -31,6 +31,7 @@
     [self addTitlesView];
     [self addContentScrollView];
     [self addChildViewControllersAtIndex:self.selIndex];
+    
 }
 
 - (void)addTitlesView {
@@ -69,13 +70,15 @@
 }
 - (void)menuView:(MKMenuView *)menuView didClickTitlesAtIndex:(NSInteger)index {
     self.selIndex = index;
+    [self addChildViewControllersAtIndex:self.selIndex];
     [self.contentScrollView setContentOffset:CGPointMake(self.view.bounds.size.width * index, 0) animated:YES];
 }
 - (NSInteger)numbersOfTitlesInMenuView:(MKMenuView *)menuView {
-    return 10;
+    return self.titlesArray.count;
 }
 - (NSString *)menuView:(MKMenuView *)menuView titleAtIndex:(NSInteger)index {
-    return @"新闻";
+   
+    return self.titlesArray[index];
 }
 - (NSInteger)childControllerCount {
     return [self.dataSource numbersOfChildViewControllerInMkViewController:self];

@@ -8,7 +8,7 @@
 
 #import "MKMenuView.h"
 
-static CGFloat titlesWith = 60;
+static CGFloat titlesWith = 100;
 static NSInteger buttonTagOffset = 1000;
 @interface MKMenuView ()
 
