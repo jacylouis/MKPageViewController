@@ -22,13 +22,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-  self.array = [NSArray arrayWithObjects:@"新闻",@"资讯", @"科技",@"笑话", @"头条",nil];
+  self.array = [NSArray arrayWithObjects:@"新闻",@"资讯", @"科技",@"笑话", @"头条",@"见闻",@"财经",nil];
     CustomViewController *vc1 = [[CustomViewController alloc] init];
     ViewController1 *vc2 = [[ViewController1 alloc] init];
      ViewController2 *vc3 = [[ViewController2 alloc] init];
      ViewController3 *vc4 = [[ViewController3 alloc] init];
      ViewController5 *vc5 = [[ViewController5 alloc] init];
-    self.vcArray = [NSArray arrayWithObjects:vc1,vc2,vc3,vc4, vc5, nil];
+     ViewController5 *vc6 = [[ViewController5 alloc] init];
+     ViewController5 *vc7 = [[ViewController5 alloc] init];
+    self.vcArray = [NSArray arrayWithObjects:vc1,vc2,vc3,vc4, vc5 ,vc6, vc7,nil];
 }
 - (IBAction)click:(id)sender {
     MKViewController *vc = [[MKViewController alloc] init];

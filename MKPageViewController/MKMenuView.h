@@ -27,6 +27,19 @@
 @property (nonatomic ,weak) id <MKMenuViewDelegate> delegate;
 
 @property (nonatomic ,weak) id <MKMenuViewDataSource> dataSource;
-
+/**
+ *  contentScrollView滚动调用这方法
+ *
+ *  @param index 传入该选中的index
+ */
 - (void)selectTitleAtIndex:(NSInteger)index;
+/**
+ *  设置标题颜色渐变 以及 大小改变
+ *
+ *  @param indexL 左边的index 计算tag
+ *  @param indexR 右边的index 计算tag
+ *  @param scaleL 左边缩放比例 / 颜色比例
+ *  @param scaleR 右边缩放比例 / 颜色比例
+ */
+- (void)TitlesleftIndex:(NSInteger)indexL rightIndex:(NSInteger)indexR leftScale:(CGFloat)scaleL rightScale:(CGFloat)scaleR;
 @end
