@@ -74,24 +74,29 @@ static NSInteger buttonTagOffset = 1000;
     NSInteger rightTag = indexR + buttonTagOffset;
     UIButton *leftBtn = [self viewWithTag:leftTag];
     UIButton *rightBtn = [self viewWithTag:rightTag];
-    
     leftBtn.transform = CGAffineTransformMakeScale(scaleL * 0.3 + 1, scaleL * 0.3 + 1);
     rightBtn.transform = CGAffineTransformMakeScale(scaleR * 0.3 + 1, scaleR * 0.3 + 1);
-    [leftBtn setTitleColor:[UIColor colorWithRed:scaleL green:0 blue:0 alpha:1] forState:UIControlStateNormal];
-    [leftBtn setTitleColor:[UIColor colorWithRed:scaleL green:0 blue:0 alpha:1] forState:UIControlStateSelected];
+    [leftBtn setTitleColor:[UIColor colorWithRed:scaleL green:0 blue:0 alpha:1 ]forState:UIControlStateSelected];
+    [leftBtn setTitleColor:[UIColor colorWithRed:scaleL green:0 blue:0 alpha:1 ]forState:UIControlStateNormal];
     [rightBtn setTitleColor:[UIColor colorWithRed:scaleR green:0 blue:0 alpha:1] forState:UIControlStateNormal];
-     [rightBtn setTitleColor:[UIColor colorWithRed:scaleR green:0 blue:0 alpha:1] forState:UIControlStateSelected];
+    [rightBtn setTitleColor:[UIColor colorWithRed:scaleR green:0 blue:0 alpha:1] forState:UIControlStateSelected];
 }
 
 #pragma mark - Touch Event
 
 - (void)didClickButton:(UIButton *)button {
+    if (self.selButton == button) {
+        return;
+    }
     if ([self.delegate respondsToSelector:@selector(menuView:didClickTitlesAtIndex:)]) {
         self.selButton.selected = NO;
+        self.selButton.transform = CGAffineTransformIdentity;
+        [self.selButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         button.selected = YES;
         [self.delegate menuView:self didClickTitlesAtIndex:button.tag - buttonTagOffset];
         self.selButton = button;
     }
+    
     CGFloat offsetX = button.center.x - self.bounds.size.width / 2;
     if (offsetX < 0) {
         offsetX = 0;

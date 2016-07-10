@@ -76,13 +76,12 @@
 - (void)menuView:(MKMenuView *)menuView didClickTitlesAtIndex:(NSInteger)index {
     self.selIndex = index;
     [self _addChildViewControllersAtIndex:self.selIndex];
-    [self.contentScrollView setContentOffset:CGPointMake(self.view.bounds.size.width * index, 0) animated:YES];
+    [self.contentScrollView setContentOffset:CGPointMake(self.view.bounds.size.width * index, 0) animated:NO];
 }
 
 - (NSInteger)numbersOfTitlesInMenuView:(MKMenuView *)menuView {
     return self.titlesArray.count;
 }
-
 - (NSString *)menuView:(MKMenuView *)menuView titleAtIndex:(NSInteger)index {
    
     return self.titlesArray[index];
